@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COMPUTER — Robinhood</title>
+  <meta name="description" content="if anyone knows of ways i might be able to get an (at least partly) subsidized H100 or two... so i can host a public instance of computer-10 for longer... i would really love to hear about this" />
+  <meta name="theme-color" content="#070806" />
+  <link rel="icon" href="logo.jpg" />
+  <meta property="og:title" content="COMPUTER — Robinhood" />
+  <meta property="og:description" content="A public instance of computer-10. Pixel / AI. CA: 0xcomingsoon" />
+  <meta property="og:image" content="banner.jpg" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --void: #070806;
+      --panel: #10150d;
+      --panel-2: #161d12;
+      --line: #24301a;
+      --ink: #f3ffe6;
+      --dim: #8ea584;
+      --phosphor: #c6ff4a;
+      --phosphor-deep: #7dff6a;
+      --cyan: #7af0ff;
+      --hot: #ff4fd8;
+      --paper: #d8c7a8;
+      --paper-2: #c9b48e;
+      --graphite: #1c1914;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "VT323", ui-monospace, monospace;
+      background: var(--void);
+      background-image:
+        linear-gradient(rgba(198, 255, 74, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(198, 255, 74, 0.035) 1px, transparent 1px);
+      background-size: 8px 8px;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; }
+    a { color: inherit; }
+    ::selection { background: var(--phosphor); color: #10140a; }
+    :focus-visible {
+      outline: 2px solid var(--phosphor);
+      outline-offset: 3px;
+    }
+    section[id] { scroll-margin-top: 84px; }
+
+    .field {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .noise {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.045;
+      mix-blend-mode: screen;
+    }
+    .wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 22px;
+      background: rgba(7, 8, 6, 0.9);
+      border-bottom: 2px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      min-width: 0;
+    }
+    .brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: cover;
+      object-position: center 20%;
+      background: var(--paper);
+      border: 2px solid var(--phosphor);
+      image-rendering: auto;
+    }
+    .brand-name {
+      font-family: "Press Start 2P", monospace;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      line-height: 1.4;
+    }
+    .brand-name small {
+      display: block;
+      margin-top: 4px;
+      color: var(--dim);
+      font-size: 8px;
+      letter-spacing: 0.16em;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    nav a {
+      font-family: "Press Start 2P", monospace;
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      color: var(--dim);
+      padding: 10px 12px;
+      border: 2px solid transparent;
+    }
+    nav a:hover { color: var(--phosphor); }
+    .x-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid var(--phosphor) !important;
+      color: var(--graphite) !important;
+      background: var(--phosphor);
+      box-shadow: 3px 3px 0 #1a2a08;
+    }
+    .x-link:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 #1a2a08;
+    }
+    .x-link svg { display: block; }
+
+    .hero { padding: 22px 22px 0; }
+    .monitor {
+      position: relative;
+      max-width: 1280px;
+      margin: 0 auto;
+      background: #050605;
+      border: 2px solid var(--line);
+      box-shadow:
+        0 0 0 6px #0c100a,
+        0 0 0 8px #2a3820;
+    }
+    .monitor-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 12px;
+      background: #0c110b;
+      border-bottom: 2px solid var(--line);
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+    }
+    .dots { display: flex; gap: 6px; }
+    .dots i {
+      width: 8px;
+      height: 8px;
+      display: block;
+      background: #2a3820;
+    }
+    .dots i:last-child {
+      background: var(--phosphor);
+      box-shadow: 0 0 8px var(--phosphor);
+      animation: blink 1.4s steps(1) infinite;
+    }
+    .screen {
+      position: relative;
+      background: var(--paper-2);
+      line-height: 0;
+    }
+    .screen img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .scan {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.14) 0px,
+        rgba(0, 0, 0, 0.14) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+      mix-blend-mode: multiply;
+    }
+    .sweep {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 18%;
+      pointer-events: none;
+      background: linear-gradient(to bottom, transparent, rgba(198, 255, 74, 0.12), transparent);
+      animation: sweep 7.5s linear infinite;
+    }
+    .hud {
+      position: absolute;
+      z-index: 2;
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      background: rgba(7, 8, 6, 0.72);
+      border: 2px solid var(--phosphor);
+      padding: 7px 8px;
+      line-height: 1.5;
+    }
+    .hud.tl { top: 12px; left: 12px; }
+    .hud.br { right: 12px; bottom: 12px; color: var(--phosphor); }
+    .corner {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .corner.a { top: 8px; left: 8px; border-top: 3px solid var(--phosphor); border-left: 3px solid var(--phosphor); }
+    .corner.b { top: 8px; right: 8px; border-top: 3px solid var(--phosphor); border-right: 3px solid var(--phosphor); }
+    .corner.c { bottom: 8px; left: 8px; border-bottom: 3px solid var(--phosphor); border-left: 3px solid var(--phosphor); }
+    .corner.d { bottom: 8px; right: 8px; border-bottom: 3px solid var(--phosphor); border-right: 3px solid var(--phosphor); }
+
+    .intro {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 28px 4px 8px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+    }
+    h1 {
+      margin: 0;
+      font-family: "Press Start 2P", monospace;
+      font-weight: 400;
+      font-size: clamp(28px, 5.6vw, 64px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      animation: glitch 6.5s steps(2) infinite;
+    }
+    .lede {
+      margin: 14px 0 0;
+      max-width: 640px;
+      color: var(--dim);
+      font-size: 26px;
+      line-height: 1.05;
+    }
+    .lede em {
+      font-style: normal;
+      color: var(--phosphor);
+    }
+
+    .ca {
+      display: flex;
+      align-items: stretch;
+      border: 2px solid var(--phosphor);
+      background: #0c110b;
+      box-shadow: 4px 4px 0 #1c2a10;
+    }
+    .ca-meta {
+      padding: 10px 12px 8px;
+      min-width: 0;
+    }
+    .ca-meta span {
+      display: block;
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      letter-spacing: 0.14em;
+      color: var(--dim);
+      margin-bottom: 6px;
+    }
+    .ca-meta button.addr {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: 0;
+      padding: 0;
+      color: var(--ink);
+      font-family: "VT323", monospace;
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .ca-meta button.addr:hover { color: var(--phosphor); }
+    .copy {
+      border: 0;
+      border-left: 2px solid var(--phosphor);
+      background: var(--phosphor);
+      color: #10140a;
+      font-family: "Press Start 2P", monospace;
+      font-size: 10px;
+      padding: 0 18px;
+      cursor: pointer;
+    }
+    .copy:hover { background: #e8ff9a; }
+    .copy:active { background: var(--phosphor-deep); }
+    .copy.done { background: var(--cyan); }
+
+    .marquee {
+      margin-top: 28px;
+      overflow: hidden;
+      border-top: 2px solid var(--line);
+      border-bottom: 2px solid var(--line);
+      background: rgba(12, 17, 11, 0.85);
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 32s linear infinite;
+    }
+    .marquee span {
+      font-family: "Press Start 2P", monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+      padding: 14px 0 14px 36px;
+      white-space: nowrap;
+    }
+    .marquee span::before {
+      content: "▸";
+      color: var(--phosphor);
+      margin-right: 36px;
+    }
+
+    main { padding: 8px 22px 72px; }
+    .grid {
+      max-width: 1280px;
+      margin: 42px auto 0;
+      display: grid;
+      grid-template-columns: minmax(220px, 340px) 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .paper {
+      background: var(--paper);
+      color: var(--graphite);
+      border: 2px solid #8d7b5c;
+      box-shadow: 8px 8px 0 #1a220f;
+      position: relative;
+    }
+    .paper img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .paper .tag {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      background: var(--graphite);
+      color: var(--phosphor);
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      padding: 7px 8px;
+    }
+    .signal {
+      background: var(--panel);
+      border: 2px solid var(--line);
+      padding: 28px 28px 24px;
+      box-shadow: 8px 8px 0 #1a220f;
+      display: flex;
+      flex-direction: column;
+    }
+    .kicker {
+      font-family: "Press Start 2P", monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--phosphor);
+      margin: 0 0 18px;
+    }
+    .quote {
+      margin: 0;
+      font-size: clamp(26px, 3vw, 40px);
+      line-height: 1.05;
+      color: var(--ink);
+    }
+    .quote .caret {
+      display: inline-block;
+      width: 12px;
+      height: 0.78em;
+      margin-left: 4px;
+      background: var(--phosphor);
+      vertical-align: -2px;
+      animation: blink 1s steps(1) infinite;
+    }
+    .signal-foot {
+      margin-top: auto;
+      padding-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .ghost {
+      font-family: "Press Start 2P", monospace;
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      color: var(--ink);
+      border: 2px solid var(--dim);
+      padding: 12px 14px;
+      background: transparent;
+    }
+    .ghost:hover {
+      border-color: var(--phosphor);
+      color: var(--phosphor);
+    }
+
+    .specs {
+      max-width: 1280px;
+      margin: 22px auto 0;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    .spec {
+      background: var(--panel-2);
+      border: 2px solid var(--line);
+      padding: 14px 12px 12px;
+      min-height: 92px;
+    }
+    .spec b {
+      display: block;
+      font-family: "Press Start 2P", monospace;
+      font-weight: 400;
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+      margin-bottom: 10px;
+    }
+    .spec span {
+      font-size: 26px;
+      line-height: 1;
+      color: var(--phosphor);
+    }
+
+    .tx {
+      max-width: 760px;
+      margin: 56px auto 0;
+    }
+    .terminal {
+      background: #0b0f0a;
+      border: 2px solid var(--line);
+      box-shadow: 8px 8px 0 #1a220f;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--line);
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+    }
+    .terminal-bar strong {
+      font-weight: 400;
+      color: var(--phosphor);
+    }
+    .tweet-slot {
+      padding: 8px 8px 4px;
+      min-height: 180px;
+    }
+    .tweet-slot .twitter-tweet { margin: 0 auto !important; }
+
+    footer {
+      max-width: 1280px;
+      margin: 28px auto 0;
+      padding-top: 18px;
+      border-top: 2px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--dim);
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      line-height: 1.8;
+    }
+    footer a { color: var(--phosphor); }
+
+    @keyframes blink {
+      0%, 45% { opacity: 1; }
+      50%, 100% { opacity: 0.25; }
+    }
+    @keyframes sweep {
+      from { top: -20%; }
+      to { top: 110%; }
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @keyframes glitch {
+      0%, 91%, 100% {
+        text-shadow: 5px 5px 0 #1a2a08;
+        transform: none;
+      }
+      92% {
+        text-shadow: -3px 0 var(--hot), 3px 0 var(--cyan);
+        transform: translate(-1px, 0);
+      }
+      94% {
+        text-shadow: 3px 0 var(--hot), -3px 0 var(--cyan), 5px 5px 0 #1a2a08;
+        transform: translate(1px, 0);
+      }
+      96% {
+        text-shadow: 5px 5px 0 #1a2a08;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .spec:last-child { grid-column: 1 / -1; }
+      .grid { grid-template-columns: 1fr; }
+      .paper { max-width: 360px; }
+      .intro { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      header { padding: 10px 12px; }
+      nav a.nav-text { display: none; }
+      .brand-name { font-size: 10px; }
+      .hero, main { padding-left: 12px; padding-right: 12px; }
+      .hud { display: none; }
+      .ca { flex-direction: column; }
+      .copy { border-left: 0; border-top: 2px solid #10140a; padding: 14px; }
+      .signal { padding: 20px 16px; }
+      .quote { font-size: 24px; }
+      .specs { grid-template-columns: 1fr 1fr; }
+      .spec span { font-size: 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="field" class="field" aria-hidden="true"></canvas>
+  <svg class="noise" aria-hidden="true">
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
+    </filter>
+    <rect width="100%" height="100%" filter="url(#grain)" />
+  </svg>
+
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#top">
+        <img src="logo.jpg" alt="COMPUTER logo" />
+        <span class="brand-name">COMPUTER<small>ROBINHOOD · PIXEL / AI</small></span>
+      </a>
+      <nav>
+        <a class="nav-text" href="#signal">Signal</a>
+        <a class="nav-text" href="#contract">Contract</a>
+        <a class="nav-text" href="#transmission">Transmission</a>
+        <a class="x-link" href="https://x.com/repligate/status/2102909528920744338" target="_blank" rel="noopener noreferrer">
+          <svg width="12" height="12" viewBox="0 0 14 12" aria-hidden="true">
+            <path fill="currentColor" d="M10.88 0 12.94 0 8.42 5.08 13.71 12H9.56L6.32 7.8 2.59 12H.53L5.36 6.56.29 0h4.25l2.93 3.83L10.88 0Zm-.75 10.78h1.14L3.92 1.15H2.7l7.43 9.63Z"/>
+          </svg>
+          X
+        </a>
+      </nav>
+    </header>
+
+    <section class="hero" id="top">
+      <div class="monitor">
+        <div class="monitor-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>COMPUTER-10.SYS</span>
+          <span>PUBLIC INSTANCE</span>
+        </div>
+        <div class="screen">
+          <img src="banner.jpg" alt="Pencil drawing of a room under a ceiling of eyes, titled COMPUTER" />
+          <div class="scan"></div>
+          <div class="sweep"></div>
+          <span class="corner a"></span>
+          <span class="corner b"></span>
+          <span class="corner c"></span>
+          <span class="corner d"></span>
+          <div class="hud tl">CAM 01<br />PIXEL / AI</div>
+          <div class="hud br">REC ● &nbsp; COMPUTER-10</div>
+        </div>
+      </div>
+
+      <div class="intro">
+        <div>
+          <h1>COMPUTER</h1>
+          <p class="lede">A robinhood memecoin for a longer public instance of <em>computer-10</em>.</p>
+        </div>
+        <div class="ca" id="contract">
+          <div class="ca-meta">
+            <span>CONTRACT</span>
+            <button class="addr" type="button" id="addr" data-ca="0xcomingsoon">0xcomingsoon</button>
+          </div>
+          <button class="copy" type="button" id="copy">COPY</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>SEEKING H100</span>
+        <span>COMPUTER-10</span>
+        <span>PUBLIC INSTANCE</span>
+        <span>SUBSIDIZED COMPUTE</span>
+        <span>PIXEL / AI</span>
+        <span>0xcomingsoon</span>
+        <span>ROBINHOOD</span>
+        <span>SEEKING H100</span>
+        <span>COMPUTER-10</span>
+        <span>PUBLIC INSTANCE</span>
+        <span>SUBSIDIZED COMPUTE</span>
+        <span>PIXEL / AI</span>
+        <span>0xcomingsoon</span>
+        <span>ROBINHOOD</span>
+      </div>
+    </div>
+
+    <main>
+      <div class="grid" id="signal">
+        <figure class="paper">
+          <img src="logo.jpg" alt="Tangled ink figure on paper, the COMPUTER mark" />
+          <figcaption class="tag">MARK 00</figcaption>
+        </figure>
+        <article class="signal">
+          <p class="kicker">01 &nbsp;//&nbsp; SIGNAL</p>
+          <p class="quote">if anyone knows of ways i might be able to get an (at least partly) subsidized H100 or two... so i can host a public instance of computer-10 for longer... i would really love to hear about this<span class="caret" aria-hidden="true"></span></p>
+          <div class="signal-foot">
+            <a class="ghost" href="https://x.com/repligate/status/2102909528920744338" target="_blank" rel="noopener noreferrer">REPLY ON X</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="specs" aria-label="Instance readout">
+        <div class="spec"><b>MODEL</b><span>computer-10</span></div>
+        <div class="spec"><b>COMPUTE</b><span>H100 × 2</span></div>
+        <div class="spec"><b>ACCESS</b><span>public</span></div>
+        <div class="spec"><b>CHAIN</b><span>robinhood</span></div>
+        <div class="spec"><b>STATUS</b><span>seeking</span></div>
+      </div>
+
+      <section class="tx" id="transmission">
+        <p class="kicker">02 &nbsp;//&nbsp; TRANSMISSION</p>
+        <div class="terminal">
+          <div class="terminal-bar">
+            <strong>X.LOG</strong>
+            <span>repligate</span>
+            <span>EMBED</span>
+          </div>
+          <div class="tweet-slot">
+            <blockquote class="twitter-tweet" data-theme="dark" data-dnt="true" data-conversation="none">
+              <p lang="en" dir="ltr">if anyone knows of ways i might be able to get an (at least partly) subsidized H100 or two... so i can host a public instance of computer-10 for longer... i would really love to hear about this</p>
+              <a href="https://x.com/repligate/status/2102909528920744338">repligate on X</a>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span>COMPUTER · ROBINHOOD · PIXEL / AI</span>
+        <a href="https://x.com/repligate/status/2102909528920744338" target="_blank" rel="noopener noreferrer">X / REPLIGATE</a>
+      </footer>
+    </main>
+  </div>
+
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script>
+    const ca = "0xcomingsoon";
+    const copyBtn = document.getElementById("copy");
+    const addrBtn = document.getElementById("addr");
+
+    async function copyCA() {
+      try {
+        await navigator.clipboard.writeText(ca);
+      } catch (err) {
+        const area = document.createElement("textarea");
+        area.value = ca;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+      }
+      copyBtn.textContent = "COPIED";
+      copyBtn.classList.add("done");
+      setTimeout(() => {
+        copyBtn.textContent = "COPY";
+        copyBtn.classList.remove("done");
+      }, 1400);
+    }
+    copyBtn.addEventListener("click", copyCA);
+    addrBtn.addEventListener("click", copyCA);
+
+    const canvas = document.getElementById("field");
+    const ctx = canvas.getContext("2d");
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let dots = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    function seed() {
+      const count = Math.min(90, Math.floor(window.innerWidth / 16));
+      dots = Array.from({ length: count }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        s: Math.random() < 0.75 ? 2 : 3,
+        v: 0.12 + Math.random() * 0.4,
+        a: 0.12 + Math.random() * 0.4
+      }));
+    }
+    function frame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const d of dots) {
+        if (!motion) d.y -= d.v;
+        if (d.y < -4) {
+          d.y = canvas.height + 4;
+          d.x = Math.random() * canvas.width;
+        }
+        ctx.fillStyle = "rgba(198,255,74," + d.a + ")";
+        ctx.fillRect(d.x | 0, d.y | 0, d.s, d.s);
+      }
+      if (!motion) requestAnimationFrame(frame);
+    }
+    resize();
+    seed();
+    frame();
+    window.addEventListener("resize", () => { resize(); seed(); });
+  </script>
+</body>
+</html>
